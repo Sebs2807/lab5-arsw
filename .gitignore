@@ -1,24 +1,27 @@
-# Compiled class file
-*.class
+# Maven
+/target/
 
-# Log file
-*.log
+# IDEs
+/.idea/
+/*.iml
+*.classpath
+*.project
+*.settings/
+.vscode/
+*.swp
 
-# BlueJ files
-*.ctxt
+# OS
+.DS_Store
+Thumbs.db
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Build
+/build/
+out/
 
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+# Environment
+.env
+*.local
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+# Others
+*.bak
+*.tmp
