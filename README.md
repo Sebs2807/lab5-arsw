@@ -125,7 +125,7 @@ src/main/resources/
 
 ## Diagrama de componentes:
 Se incluye un diagrama de componentes que ilustra la arquitectura del sistema, destacando los componentes principales y sus interacciones.
-![Diagrama de Componentes](https://raw.githubusercontent.com/DECSIS-ECI/Lab_P2_BluePrints_Java21_API_Security_JWT/main/diagrams/lab5ARSW.drawio.png)
+![Diagrama de Componentes](https://github.com/Sebs2807/lab5-arsw/blob/componentes/image/lab5ARSW.drawio.png)
 
 ## Licencia
 Proyecto educativo con fines académicos – Escuela Colombiana de Ingeniería Julio Garavito.
