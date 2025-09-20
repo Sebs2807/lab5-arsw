@@ -23,10 +23,14 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/actuator/health", "/auth/login").permitAll()
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                .requestMatchers("/api/**").hasAnyAuthority("SCOPE_blueprints.read", "SCOPE_blueprints.write")
-                .anyRequest().authenticated()
+                    .requestMatchers("/actuator/**", "/auth/login").permitAll()
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                    // Endpoints de BlueprintsAPIController
+                    .requestMatchers("/api/v1/blueprints").hasAnyAuthority("SCOPE_blueprints.read", "SCOPE_blueprints.write")
+                    .requestMatchers("/api/v1/blueprints/{author}").hasAnyAuthority("SCOPE_blueprints.read", "SCOPE_blueprints.write")
+                    .requestMatchers("/api/v1/blueprints/{author}/{bpname}").hasAnyAuthority("SCOPE_blueprints.read", "SCOPE_blueprints.write")
+                    .requestMatchers("/api/v1/blueprints/{author}/{bpname}/points").hasAnyAuthority("SCOPE_blueprints.read", "SCOPE_blueprints.write")
+                    .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
         return http.build();

@@ -2,6 +2,10 @@ package co.edu.eci.blueprints.auth;
 
 import co.edu.eci.blueprints.security.InMemoryUserService;
 import co.edu.eci.blueprints.security.RsaKeyProperties;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.web.bind.annotation.*;
@@ -27,13 +31,27 @@ public class AuthController {
     public record TokenResponse(String access_token, String token_type, long expires_in) {}
 
     @PostMapping("/login")
+    @Operation(
+            summary = "Autenticar usuario y obtener token JWT",
+            description = "Este endpoint valida las credenciales de un usuario y, si son correctas, devuelve un token JWT firmado con RSA."
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Autenticación exitosa. Devuelve un token de acceso válido.",
+            content = @Content(schema = @Schema(implementation = TokenResponse.class))
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "Credenciales inválidas.",
+            content = @Content(schema = @Schema(example = "{ \"error\": \"invalid_credentials\" }"))
+    )
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
         if (!userService.isValid(req.username(), req.password())) {
             return ResponseEntity.status(401).body(Map.of("error", "invalid_credentials"));
         }
 
         Instant now = Instant.now();
-        long ttl = props.tokenTtlSeconds() != null ? props.tokenTtlSeconds() : 3600;
+        long ttl = props.tokenTtlSeconds() != null ? props.tokenTtlSeconds() : 60;
         Instant exp = now.plusSeconds(ttl);
 
         String scope = "blueprints.read blueprints.write";
